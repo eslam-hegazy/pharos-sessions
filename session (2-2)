@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController number1Controller = TextEditingController();
+
+  TextEditingController number2Controller = TextEditingController();
+
+  int result=0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextField(
+                controller: number1Controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Number 1",
+                  hintText: "Enter Number 1",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+              ),
+              const SizedBox(height: 15),
+              TextField(
+                controller: number2Controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Number 2",
+                  hintText: "Enter Number 2",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+              ),
+              const SizedBox(height: 15),
+              MaterialButton(
+                color: Colors.blue,
+                child:const Text(
+                  "Add",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  int num1=int.parse(number1Controller.text);
+                  int num2=int.parse(number2Controller.text);
+                  setState(() {
+                    result=num1+num2;
+                  });
+                },
+              ),
+              Text("Result: $result"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
