@@ -1,0 +1,182 @@
+
+/// login screen
+import 'package:flutter/material.dart';
+import 'package:flutter_application_6/home_screen.dart';
+import 'package:get/get.dart';
+
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
+  var image =
+      "https://img.freepik.com/premium-photo/white-golden-letter-logo-design-business-identity-digital-design-company_1255023-35599.jpg?w=740";
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(image),
+                  radius: 80,
+                ),
+              ),
+              const Text("Login!"),
+              const SizedBox(height: 15),
+              customTextField(
+                controller: emailController,
+                hintText: "Enter email",
+                labelText: "Email address",
+              ),
+              customTextField(
+                controller: passwordController,
+                hintText: "Enter password",
+                labelText: "Password",
+              ),
+              const SizedBox(height: 15),
+              customButton(
+                title: "Login",
+                onTap: () {
+                  Get.to(
+                    () => HomeScreen(),
+                    arguments: [emailController.text, passwordController.text],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget customButton({required String title, required VoidCallback onTap}) {
+    return MaterialButton(
+      height: 35,
+      minWidth: 50,
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+            color: Colors.transparent,
+          )),
+      color: Colors.orange,
+      onPressed: onTap,
+      child: Text(title),
+    );
+  }
+
+  Widget customTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required String labelText,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+            hintText: hintText,
+            labelText: labelText,
+            border: OutlineInputBorder()),
+      ),
+    );
+  }
+}
+
+/// home screen
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController number1Controller = TextEditingController();
+  TextEditingController number2Controller = TextEditingController();
+  int result=0;
+   String? email;
+   String? password;
+  @override
+  void initState() {
+    email=Get.arguments[0];
+    password=Get.arguments[1];
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Email: $email"),
+              Text("Passwird: $password"),
+              TextField(
+                controller: number1Controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Number 1",
+                  hintText: "Enter Number 1",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+              ),
+              const SizedBox(height: 15),
+              TextField(
+                controller: number2Controller,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Number 2",
+                  hintText: "Enter Number 2",
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+              ),
+              const SizedBox(height: 15),
+              MaterialButton(
+                color: Colors.blue,
+                child:const Text(
+                  "Add",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  int num1=int.parse(number1Controller.text);
+                  int num2=int.parse(number2Controller.text);
+                  setState(() {
+                    result=num1+num2;
+                  });
+                },
+              ),
+              Text("Result: $result"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
